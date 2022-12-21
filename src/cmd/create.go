@@ -46,7 +46,7 @@ var (
 		distro    string
 		image     string
 		release   string
-		volume    string
+		volumes   []string
 	}
 
 	createToolboxShMounts = []struct {
@@ -91,10 +91,9 @@ func init() {
 		"",
 		"Create a toolbox container for a different operating system release than the host")
 
-	flags.StringVarP(&createFlags.volume,
+	flags.StringArrayVar(&createFlags.volumes,
 		"volume",
-		"",
-		"",
+		[]string{},
 		"Bind mount a volume")
 
 
@@ -166,16 +165,16 @@ func create(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	var volume string
-	volume = createFlags.volume
-	if err := createContainer(container, image, release, volume, true); err != nil {
+	var volumes []string
+	volumes = createFlags.volumes
+	if err := createContainer(container, image, release, volumes, true); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func createContainer(container, image, release, volume string, showCommandToEnter bool) error {
+func createContainer(container, image, release string, volumes []string, showCommandToEnter bool) error {
 	if container == "" {
 		panic("container not specified")
 	}
@@ -431,7 +430,7 @@ func createContainer(container, image, release, volume string, showCommandToEnte
 		"--volume", runtimeDirectoryMountArg,
 	}...)
 
-	if volume != "" {
+	for _, volume := range volumes {
 		createArgs = append(createArgs, []string {
 			"--volume", volume,
 		}...)

@@ -203,8 +203,8 @@ func runCommand(container string,
 				return nil
 			}
 
-			var volume string
-			if err := createContainer(container, image, release, volume, false); err != nil {
+			var volumes []string
+			if err := createContainer(container, image, release, volumes, false); err != nil {
 				return err
 			}
 		} else if containersCount == 1 && defaultContainer {
