@@ -7,6 +7,7 @@ toolbox\-create - Create a new toolbox container
 **toolbox create** [*--distro DISTRO* | *-d DISTRO*]
                [*--image NAME* | *-i NAME*]
                [*--release RELEASE* | *-r RELEASE*]
+               [*--volume VOLUME*]
                [*CONTAINER*]
 
 ## DESCRIPTION
@@ -98,6 +99,10 @@ remote registry.
 
 Create a toolbox container for a different operating system RELEASE than the
 host. Cannot be used with `--image`.
+
+**--volume** VOLUME
+
+Bind mount a volume. See `podman create --volume` for details.
 
 ## EXAMPLES
 
